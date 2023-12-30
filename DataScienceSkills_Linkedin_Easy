@@ -42,3 +42,18 @@ HAVING
   COUNT(skill)=3
 ORDER BY
   candidate_id;
+
+-- Solution 2
+WITH cte AS
+(
+SELECT
+  candidate_id,
+  SUM(CASE WHEN skill='Python' OR skill='Tableau' OR skill='PostgreSQL' THEN 1 END) AS skill_count
+FROM
+  candidates
+GROUP BY
+  candidate_id
+HAVING
+  SUM(CASE WHEN skill='Python' OR skill='Tableau' OR skill='PostgreSQL' THEN 1 END)=3
+)
+SELECT candidate_id FROM cte ORDER BY candidate_id;
